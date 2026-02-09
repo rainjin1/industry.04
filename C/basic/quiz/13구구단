@@ -9,5 +9,14 @@ int main()
 			printf("%d * %d=%d\n", dan, i, dan * i);
 		}
 	}
+	printf("\n\n");
+
+	for (int dan = 2; dan < 10; dan++)
+	{
+	for (int i = 1; i <= 9; i++)
+		{
+		printf("%d * %d=%d\n", 11-dan, 10-i, (11-dan) * (10-i));
+		}
+	}
 	return 0;
 }
