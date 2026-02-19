@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main()
+{
+    int age;
+    char strage[10];
+    char name[20];
+    //정수값을 스캔f로 안받고, 아예 fgets로 받아버리면 어떨까?
+    printf("나이 입력 : ");
+    // scanf("%d", &age);
+    fgets(strage, sizeof(strage), stdin);
+    //변환을 해줘야함.
+    age=atoi(strage);
+
+    //getchar(); // 편법. 
+
+    printf("이름 입력 : ");
+    fgets(name, sizeof(name), stdin);
+    printf("%d   %s\n", age, name);
+    return 0;
+}
