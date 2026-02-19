@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> // strtol을 사용하기 위함.
 #include <errno.h> // atoi보안문제를 회피하기위함.
 
 int main()
