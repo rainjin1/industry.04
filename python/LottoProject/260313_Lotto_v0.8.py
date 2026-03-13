@@ -1,5 +1,5 @@
 import random
-
+ 
 list_Lottoballs = [balls for balls in range(1, 46, 1)] # 1부터 46전까지(45까지) 리스트생성
 Dic_FinalLottocount = {} # 나온 결과를 저장할 딕셔너리. 이 딕셔너리가 결과를 전부 가지고있을 예정. 그래프 만드는데도 사용.
 for i in range (1, 46, 1):
