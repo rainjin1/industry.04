@@ -19,18 +19,26 @@ for horizontall_mid_G in range(7, 10):
 leftright_flipped_canvas = [row[::-1] for row in canvas] # [i][j] 에서 j순서만 역순으로
 topbottom_flipped_canvas = canvas[::-1] # [i][j] 에서 i를 역순으로 돌림
 both_flipped_canvas = [row[::-1] for row in canvas[::-1]] #[i][j]둘다 역순으로 재정렬
-
-choice = input("1번: 원본, 2번: 좌우반전, 3번: 상하반전, 4번: 상하좌우반전\n")
-Graphic_Check = int(choice)
-if Graphic_Check == 1:
-    for i in range(10):
-        print(canvas[i])
-elif Graphic_Check == 2:
-    for i in range(10):
-        print(leftright_flipped_canvas[i])
-elif Graphic_Check == 3:
-    for i in range(10):
-        print(topbottom_flipped_canvas[i])
-else:
-    for i in range(10):
-        print(both_flipped_canvas[i])
+while True:
+    choice = input("1번: 원본, 2번: 좌우반전, 3번: 상하반전, 4번: 상하좌우반전\n")
+    Graphic_Check = int(choice)
+    try:
+        Graphic_Check = int(choice)
+        if Graphic_Check == 1:
+            for i in range(10):
+                print(canvas[i])
+            continue
+        elif Graphic_Check == 2:
+            for i in range(10):
+                print(leftright_flipped_canvas[i])
+            continue
+        elif Graphic_Check == 3:
+            for i in range(10):
+                print(topbottom_flipped_canvas[i])
+            continue
+        elif Graphic_Check == 4:
+            for i in range(10):
+                print(both_flipped_canvas[i])
+            continue
+    except ValueError:
+        print("1~4 사이의 정수로 입력해주세요.")
