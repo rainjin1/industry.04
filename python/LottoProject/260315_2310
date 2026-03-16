@@ -51,6 +51,7 @@ def checking_numbers(picked_numbers: list[int], winning_numbers: list[int], bonu
     if won_numbers < 3:
         print("I'm sorry you lost.....")
 
+#당첨번호 생성기.
 how_many_cycle = input("반복할 횟수를 입력해 주세요. (양의 정수만 입력 가능) : ") # 반복횟수 돌릴 번호 받기
 number_of_cycle = int(how_many_cycle) # 받은 문자열을 정수로 변환
 ball_pool = [balls for balls in range(1, 46, 1)] # 1부터 46전까지(45까지) 리스트생성
@@ -102,7 +103,6 @@ final_bought_bundle = {}
 print("수동을 원하신다면 1, 자동을 원하신다면 2 를 입력해주세요 : ")
 user_choice_autoorpick = int(input())
 while True:
-    user_choice_quantity_of_buy = int(input())
     print("구매할 장수를 입력해주세요 : ")
     user_choice_quantity_of_buy = int(input())
     if user_choice_quantity_of_buy> 20:
@@ -135,9 +135,9 @@ while not paid_successfully :
         inserted_money = user_choice_quantity_of_buy*5000
         continue
 
-fianl_list = final_bought_bundle.values()
+final_list = final_bought_bundle.values()
 
 print("구매한 로또와 당첨번호를 확인합니다.")
-for lottos in fianl_list:
+for lottos in final_list:
     checking_numbers(lottos, Congratulations, bonus_number)
 # checking_numbers(int_bought_lotto, Congratulations, bonus_number) # 직접 찍은 번호 리스트, 당첨번호 리스트, 보너스번호를 매개변수로전달
