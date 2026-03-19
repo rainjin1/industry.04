@@ -1,3 +1,5 @@
+opynb파일
+
 from pop import Sound, delay, Leds
 
 sound = Sound()
