@@ -1,3 +1,6 @@
+#통합알람 시스템
+#한백전자 pyc basic 라즈베리4b soda os
+
 from pop import delay, Switches, Cds, Sht20, Oled, Leds, Gesture, Psd, Potentiometer, PiezoBuzzer, Sound
 import time, random, threading
 
