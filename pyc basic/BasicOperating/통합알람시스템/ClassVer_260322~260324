@@ -1,6 +1,3 @@
-#통합알람 시스템
-#한백전자 pyc basic 라즈베리4b soda os
-
 from pop import delay, Switches, Cds, Sht20, Oled, Leds, Gesture, Psd, Potentiometer, PiezoBuzzer, Sound
 import time, random, threading
 
@@ -121,10 +118,16 @@ class SmartAlarm:
         # 알람이 켜져 있고, 입력 진행 중인 동안 스위치 감시
         while self.alarm_on:
             if not self.check_buttons_running:
-                delay(100)
+                delay(200)
                 continue
-            distance_value = self.psd.readAverage() # 거리의 평균값을 읽어와서
-            self.distance = self.psd.calcDist(distance_value) # 알아보기쉬운 cm형으로 변환. 이건 화면표시에서 사용해야해서, 전역으로 저장.
+            try:
+                distance_value = self.psd.readAverage() # 거리의 평균값을 읽어와서
+                calculated = self.psd.calcDist(distance_value) # 알아보기쉬운 cm형으로 변환. 이건 화면표시에서 사용해야해서, 전역으로 저장.
+                if calculated is not None:
+                    self.distance = calculated
+            except Exception as e:
+                print(f"PSD Sensor Error: {e}")
+                self.distance = 30
             if 10 <= self.distance <= 60:
                 # 0번 스위치: 현재 가리키는 자릿수의 숫자를 0~9 사이에서 순환 증가
                 if not self.sw[0].read(): # 0번 스위치: 숫자 증가
@@ -140,7 +143,7 @@ class SmartAlarm:
                     else:
                         self.check_buttons_running = False # 모든 자리 입력 완료 신호
                         delay(100)
-            delay(50)
+            delay(200)
 
     def snooze_gesture_task(self):
         """4단계에서 제스처 입력을 통한 타이머 5분 추가를 위한 스레딩 함수"""
@@ -155,13 +158,9 @@ class SmartAlarm:
                 if gesture == "Left":
                     self.ges_step = 1
                     print("Left gesture detected")
-                    self.led[7].on()
-                    self.led[5].on() # LED를 통해 인식 알림
                 # 2단계: 왼쪽 이후 오른쪽 제스처 인식 시 스누즈 카운트 증가 및 알람 일시정지
                 elif gesture == "Right" and self.ges_step == 1:
                     print("Right gesture detected. Alarm snooze check")
-                    self.led[2].on()
-                    self.led[0].on()
                     self.snooze_count += 1
                     self.check_buttons_running = False
                     self.music_on = False
@@ -262,6 +261,7 @@ class SmartAlarm:
             # --- 4단계. 비밀번호 확인 ---
             # 사용자가 비밀번호를 맞추거나 스누즈를 발동할 때까지 반복
             while self.alarm_on:
+                time.sleep(0.1)
                 # 버튼 입력 스레드에서 입력 완료 신호(SW2 4번 클릭)를 보낸 경우
                 if not self.check_buttons_running:
                     # 4자리를 조합하여 정수형 비밀번호 생성
@@ -303,13 +303,13 @@ class SmartAlarm:
                     self.display.setCursor(0, 20)
                     self.display.print("TOO CLOSE")
                     self.display.display()
-                    delay(500)
+                    time.sleep(0.01)
                 elif self.distance > 60:
                     self.display.setTextSize(s=2)
                     self.display.setCursor(0, 20)
                     self.display.print("TOO FAR")
                     self.display.display()
-                    delay(500)
+                    time.sleep(0.01)
                 else:
                     self.display.setTextSize(s=1)
                     self.display.setCursor(0, 0)
@@ -394,7 +394,7 @@ class SmartAlarm:
 
     def booting_sound(self):
         booting_count = 0
-        booting_notes = ((3, 8, 4), (3, 3, 8), (3, 1, 2), (3, 8, 8), (3, 3, 4),)
+        booting_notes = ((3, 8, 4), (3, 3, 8), (3, 1, 4), (3, 8, 8), (3, 3, 4),)
         while booting_count == 0 :
             for n in booting_notes:
                 self.buz.tone(n[0], n[1], n[2])
